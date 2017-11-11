@@ -1,0 +1,163 @@
+﻿<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">        
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css">
+        
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="js/slides.js"></script>		
+		
+        <title>Template</title>
+    </head>
+    <body>
+        
+		<div id="forBG-slider" class="clearfix">
+			
+			<div class="wrapper">
+				<div id="slideHeadings">
+					<h2>HTML5</h2>
+					<h2>CSS3</h2>
+					<h2>JavaScript</h2>
+				</div>
+				<div id="container_carousel">		
+					<!-- start SlidesJS slideshow -->
+					<img src="img/img-effect.jpg" alt="image">
+					<div id="slides">
+							<img src="img/slide_01.jpg" width="330" height="220" alt="Slide 1">
+							
+							<img src="img/slide_02.jpg" width="330" height="220" alt="Slide 2">
+				
+							<img src="img/slide_03.jpg" width="330" height="220" alt="Slide 3">			
+					</div>		
+				</div>
+				<div id="current_article">
+					<div class="content-div">
+							<h3>Что такое HTML5?</h3>
+							<p>
+								Это язык разметки гипертекста. Стандартизированный язык разметки документов во Всемирной паутине.
+							</p>
+							<p class="lower">								
+								Большинство веб-страниц содержат описание разметки на языке HTML (или XHTML). Язык HTML интерпретируется браузерами; полученный в результате интерпретации форматированный текст отображается на экране монитора компьютера или мобильного устройства. 
+							</p>
+							<button>подробнее</button>
+					</div>
+					<div class="content-div">
+							<h3>Что такое CSS3?</h3>
+							<p>
+								Это формальный язык описания внешнего вида документа, написанного с использованием HTML.
+							</p>
+							<p class="lower">
+								Cascading Style Sheets. Преимущественно используется как средство описания, оформления внешнего вида веб-страниц, написанных с помощью языков разметки HTML и XHTML, но может также применяться к любым XML-документам, например, к SVG или XUL. 
+							</p>
+							<button>подробнее</button>
+					</div>
+					<div class="content-div">
+							<h3>Что такое JavaScript?</h3>
+							<p>
+								Это язык программирования, поддерживающий OO, императивный и функциональный стили.
+							</p>
+							<p class="lower">
+								JavaScript — мультипарадигменный язык программирования. Обычно используется как встраиваемый язык для программного доступа к объектам приложений. Наиболее широкое применение находит в браузерах как язык сценариев для придания интерактивности веб-страницам
+							</p>
+							<button>подробнее</button>
+					</div>
+				</div>
+				<div id="nextArticle">
+					<div id="shadowing"></div>
+					<div class="content-div dynamic"></div>
+					<div class="content-div dynamic"></div>
+					<div class="content-div dynamic"></div>
+				</div>
+			</div>			
+		</div>
+
+		<div id="after-slider" class="clearfix">
+			<div class="wrapper">
+				<div class="block-footer">
+					<p>
+						Подпишитесь на нашу рассылку и будете в курсе актуальных новостей и акций от нашей компании! 
+					</p>
+				</div>
+				<div class="block-footer">
+					<input type="text"><input type="submit" value="OK">
+				</div>				
+			</div>
+		</div>
+		
+        <!-- Content #END /-->
+    <script>
+			
+		
+		var imgSlides = $("#slides > img");
+		var slideHeadings = $("#slideHeadings h2");
+		var currentArticles = $(".content-div");
+		var nextArticles = $(".dynamic");
+		var next = 1;	
+
+		$(slideHeadings[0]).animate({opacity:'1'}, 100);
+		$(currentArticles[0]).fadeToggle(100);
+		$(nextArticles[0]).empty().html( $(currentArticles[next]).html() ).fadeToggle(100);		
+
+		function currentSlide( current ) {
+			$(".current_slide").text(current + " of " + $("#slides").slides("status","total") );
+		};
+		
+		$(function(){			
+			$("#slides").slides({
+				speed: 100,
+				width: 330,
+				height: 220,				
+				navigateEnd: function( current ) {
+					currentSlide( current );
+				},
+				loaded: function(){
+					currentSlide( 1 );
+				}			        
+			});			
+
+			$(".slidesNavigation").on("click", function(){
+				var i = $("#slides").slides("status","current");
+
+
+				if($(this).hasClass("slidesNext")){				
+
+					if(i < imgSlides.length - 1){						
+							i++;
+							if(next !== imgSlides.length - 1){
+								next++;	
+							} else {
+								next = 0;
+							}															
+					} else {
+						i = 0;
+						next = 1;
+					}
+				} else {
+					if(i === false){						
+						i = imgSlides.length - 1;
+						next = 0;
+					} else {
+						i--;
+						if(next !== false){
+							next = i + 1;
+						} else {
+							next = imgSlides.length - 1;
+						}
+					}
+				};
+
+				$("#slideHeadings h2").css("opacity","0");
+				$(slideHeadings[i]).animate({opacity:'1'}, 400);
+				$(".content-div").css("display","none");
+				$(nextArticles[i]).empty().html( $(currentArticles[next]).html() ).fadeToggle(1000);
+				$(currentArticles[i]).fadeToggle(1000);
+								
+				
+			});			
+
+		});
+	</script>
+
+    </body>
+</html>
